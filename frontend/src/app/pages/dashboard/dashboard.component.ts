@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: ApiService,
-    private wsService: WebSocketService
+    public wsService: WebSocketService
   ) {}
 
   ngOnInit(): void {
