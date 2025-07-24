@@ -1,0 +1,274 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px;
+}
+
+.login-card {
+  display: flex;
+  max-width: 1000px;
+  width: 100%;
+  gap: 48px;
+  align-items: flex-start;
+
+  mat-card {
+    flex: 1;
+    max-width: 400px;
+    padding: 0;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  }
+}
+
+.login-header {
+  background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+  color: white;
+  padding: 32px 24px !important;
+  border-radius: 16px 16px 0 0;
+
+  .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+
+    .dna-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: #4CAF50;
+    }
+
+    .logo-text {
+      h1 {
+        margin: 0 0 8px 0;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.9;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
+mat-card-content {
+  padding: 32px 24px !important;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .full-width {
+    width: 100%;
+  }
+
+  mat-form-field {
+    .mat-mdc-form-field-subscript-wrapper {
+      margin-top: 8px;
+    }
+  }
+
+  .login-button {
+    height: 48px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    margin-top: 8px;
+
+    mat-spinner {
+      margin-right: 8px;
+    }
+  }
+}
+
+.demo-section {
+  margin-top: 24px;
+  text-align: center;
+
+  mat-divider {
+    margin-bottom: 16px;
+  }
+
+  .demo-text {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 16px 0;
+    font-weight: 500;
+  }
+
+  .demo-button {
+    height: 40px;
+    border-radius: 8px;
+    color: #3f51b5;
+    border-color: #3f51b5;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+
+    &:hover {
+      background-color: rgba(63, 81, 181, 0.04);
+    }
+  }
+}
+
+.features-section {
+  flex: 1;
+  color: white;
+  max-width: 500px;
+
+  h3 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 32px 0;
+    text-align: center;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      color: #4CAF50;
+      flex-shrink: 0;
+    }
+
+    div {
+      h4 {
+        margin: 0 0 8px 0;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.9;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+// Error and success snackbar styles
+::ng-deep {
+  .success-snackbar {
+    background-color: #4caf50 !important;
+    color: white !important;
+  }
+
+  .error-snackbar {
+    background-color: #f44336 !important;
+    color: white !important;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .login-container {
+    padding: 16px;
+  }
+
+  .login-card {
+    flex-direction: column;
+    gap: 32px;
+
+    mat-card {
+      max-width: none;
+    }
+  }
+
+  .login-header {
+    padding: 24px 20px !important;
+
+    .logo-section {
+      .dna-icon {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .logo-text {
+        h1 {
+          font-size: 20px;
+        }
+
+        p {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  mat-card-content {
+    padding: 24px 20px !important;
+  }
+
+  .features-section {
+    max-width: none;
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 24px;
+    }
+
+    .feature-item {
+      padding: 16px;
+
+      mat-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+
+      div {
+        h4 {
+          font-size: 16px;
+        }
+
+        p {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    gap: 24px;
+  }
+
+  .features-section {
+    .feature-item {
+      flex-direction: column;
+      text-align: center;
+      gap: 12px;
+    }
+  }
+}

@@ -1,0 +1,194 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>
+      <mat-icon>dashboard</mat-icon>
+      Cost Dashboard
+    </h1>
+    <button mat-raised-button color="primary" (click)="refreshData()" [disabled]="loading">
+      <mat-icon>refresh</mat-icon>
+      Refresh
+    </button>
+  </div>
+
+  <!-- Loading spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+    <p>Loading dashboard data...</p>
+  </div>
+
+  <!-- Dashboard content -->
+  <div class="dashboard-content" *ngIf="!loading && overview">
+    <!-- Key metrics cards -->
+    <div class="metrics-grid">
+      <mat-card class="metric-card total-cost">
+        <mat-card-content>
+          <div class="metric-header">
+            <mat-icon>attach_money</mat-icon>
+            <span class="metric-label">Total Cost This Month</span>
+          </div>
+          <div class="metric-value">${{ overview.total_cost_this_month | number:'1.2-2' }}</div>
+          <div class="metric-trend" [ngClass]="getTrendColor()">
+            <mat-icon>{{ getTrendIcon() }}</mat-icon>
+            <span>{{ overview.cost_trend_percentage | number:'1.1-1' }}%</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card running-jobs">
+        <mat-card-content>
+          <div class="metric-header">
+            <mat-icon>play_circle</mat-icon>
+            <span class="metric-label">Running Jobs</span>
+          </div>
+          <div class="metric-value">{{ overview.total_jobs_running }}</div>
+          <div class="metric-subtitle">Active workflows</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card completed-jobs">
+        <mat-card-content>
+          <div class="metric-header">
+            <mat-icon>check_circle</mat-icon>
+            <span class="metric-label">Completed Jobs</span>
+          </div>
+          <div class="metric-value">{{ overview.total_jobs_completed }}</div>
+          <div class="metric-subtitle">This month</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card avg-cost">
+        <mat-card-content>
+          <div class="metric-header">
+            <mat-icon>analytics</mat-icon>
+            <span class="metric-label">Avg Cost/Sample</span>
+          </div>
+          <div class="metric-value">${{ overview.average_cost_per_sample | number:'1.2-2' }}</div>
+          <div class="metric-subtitle">Per analysis</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Charts section -->
+    <div class="charts-section">
+      <div class="chart-row">
+        <!-- Cost trends chart -->
+        <mat-card class="chart-card cost-trends">
+          <mat-card-header>
+            <mat-card-title>Cost Trends (30 Days)</mat-card-title>
+            <mat-card-subtitle>Daily cost breakdown by resource type</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="lineChartData"
+                [options]="lineChartOptions"
+                [type]="lineChartType">
+              </canvas>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Cost breakdown pie chart -->
+        <mat-card class="chart-card cost-breakdown">
+          <mat-card-header>
+            <mat-card-title>Cost Breakdown</mat-card-title>
+            <mat-card-subtitle>Current month by resource type</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="pieChartData"
+                [options]="pieChartOptions"
+                [type]="pieChartType">
+              </canvas>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Projects and alerts section -->
+    <div class="info-section">
+      <div class="info-row">
+        <!-- Top projects -->
+        <mat-card class="info-card top-projects">
+          <mat-card-header>
+            <mat-card-title>Top Projects by Cost</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="project-list">
+              <div class="project-item" *ngFor="let project of overview.top_projects">
+                <div class="project-info">
+                  <div class="project-name">{{ project.name }}</div>
+                  <div class="project-samples">{{ project.samples }} samples</div>
+                </div>
+                <div class="project-cost">${{ project.cost | number:'1.2-2' }}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Recent alerts -->
+        <mat-card class="info-card recent-alerts">
+          <mat-card-header>
+            <mat-card-title>Recent Alerts</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="alert-list" *ngIf="overview.recent_alerts.length > 0; else noAlerts">
+              <div class="alert-item" *ngFor="let alert of overview.recent_alerts" 
+                   [ngClass]="'severity-' + alert.severity">
+                <mat-icon class="alert-icon">{{ alert.severity === 'warning' ? 'warning' : 'error' }}</mat-icon>
+                <div class="alert-content">
+                  <div class="alert-message">{{ alert.message }}</div>
+                  <div class="alert-time">{{ alert.timestamp | date:'short' }}</div>
+                </div>
+              </div>
+            </div>
+            <ng-template #noAlerts>
+              <div class="no-alerts">
+                <mat-icon>check_circle</mat-icon>
+                <p>No recent alerts</p>
+              </div>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="quick-actions">
+      <mat-card class="actions-card">
+        <mat-card-header>
+          <mat-card-title>Quick Actions</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="action-buttons">
+            <button mat-raised-button color="primary" routerLink="/jobs">
+              <mat-icon>add</mat-icon>
+              New Job
+            </button>
+            <button mat-raised-button routerLink="/alerts">
+              <mat-icon>notifications</mat-icon>
+              Manage Alerts
+            </button>
+            <button mat-raised-button routerLink="/recommendations">
+              <mat-icon>lightbulb</mat-icon>
+              View Recommendations
+            </button>
+            <button mat-raised-button routerLink="/analytics">
+              <mat-icon>analytics</mat-icon>
+              Detailed Analytics
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- WebSocket connection status -->
+  <div class="connection-status" [ngClass]="{'connected': wsService.isConnected(), 'disconnected': !wsService.isConnected()}">
+    <mat-icon>{{ wsService.isConnected() ? 'wifi' : 'wifi_off' }}</mat-icon>
+    <span>{{ wsService.isConnected() ? 'Real-time updates active' : 'Real-time updates disconnected' }}</span>
+  </div>
+</div>

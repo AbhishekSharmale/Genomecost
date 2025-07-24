@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenomeCostTracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-dna"></i>
+            <span>GenomeCostTracker</span>
+        </div>
+        <div class="nav-menu">
+            <a href="#" class="nav-link active" data-page="dashboard">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+            <a href="#" class="nav-link" data-page="jobs">
+                <i class="fas fa-tasks"></i> Jobs
+            </a>
+            <a href="#" class="nav-link" data-page="analytics">
+                <i class="fas fa-chart-bar"></i> Analytics
+            </a>
+            <a href="#" class="nav-link" data-page="alerts">
+                <i class="fas fa-bell"></i> Alerts
+            </a>
+            <a href="#" class="nav-link" data-page="optimize">
+                <i class="fas fa-lightbulb"></i> Optimize
+            </a>
+        </div>
+        <div class="nav-user">
+            <div class="user-info">
+                <span>Demo User</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="page-header">
+                <h1>Cost Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn-secondary">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button class="btn-primary">
+                        <i class="fas fa-plus"></i> New Job
+                    </button>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card primary">
+                    <div class="metric-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-value">$2,847.32</div>
+                        <div class="metric-label">Total Cost This Month</div>
+                        <div class="metric-change negative">
+                            <i class="fas fa-arrow-up"></i> 8.5%
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-card success">
+                    <div class="metric-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Running Jobs</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i> 3 new
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-card info">
+                    <div class="metric-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-value">156</div>
+                        <div class="metric-label">Completed Jobs</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i> 12%
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-card warning">
+                    <div class="metric-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-value">$18.25</div>
+                        <div class="metric-label">Avg Cost/Sample</div>
+                        <div class="metric-change negative">
+                            <i class="fas fa-arrow-down"></i> 2.1%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card large">
+                    <div class="card-header">
+                        <h3>Cost Trends</h3>
+                        <div class="chart-controls">
+                            <button class="btn-ghost active">30D</button>
+                            <button class="btn-ghost">90D</button>
+                            <button class="btn-ghost">1Y</button>
+                        </div>
+                    </div>
+                    <canvas id="costTrendChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Resource Breakdown</h3>
+                    </div>
+                    <canvas id="resourceChart"></canvas>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Top Projects</h3>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="project-list">
+                        <div class="project-item">
+                            <div class="project-info">
+                                <div class="project-name">Cancer Genomics</div>
+                                <div class="project-meta">68 samples</div>
+                            </div>
+                            <div class="project-cost">$1,245.67</div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-info">
+                                <div class="project-name">Rare Disease Study</div>
+                                <div class="project-meta">49 samples</div>
+                            </div>
+                            <div class="project-cost">$892.45</div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-info">
+                                <div class="project-name">Population Genetics</div>
+                                <div class="project-meta">39 samples</div>
+                            </div>
+                            <div class="project-cost">$709.20</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Alerts</h3>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="alert-list">
+                        <div class="alert-item warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div class="alert-content">
+                                <div class="alert-message">Budget threshold exceeded</div>
+                                <div class="alert-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="alert-item info">
+                            <i class="fas fa-info-circle"></i>
+                            <div class="alert-content">
+                                <div class="alert-message">Cost optimization available</div>
+                                <div class="alert-time">5 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs Page -->
+        <div id="jobs" class="page">
+            <div class="page-header">
+                <h1>Genomics Jobs</h1>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search jobs...">
+                    </div>
+                    <select class="filter-select">
+                        <option>All Status</option>
+                        <option>Running</option>
+                        <option>Completed</option>
+                        <option>Failed</option>
+                    </select>
+                    <button class="btn-primary">
+                        <i class="fas fa-plus"></i> New Job
+                    </button>
+                </div>
+            </div>
+
+            <div class="jobs-table-container">
+                <table class="jobs-table">
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Pipeline</th>
+                            <th>Sample</th>
+                            <th>Project</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th>Cost</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobsTableBody">
+                        <!-- Jobs will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div id="analytics" class="page">
+            <div class="page-header">
+                <h1>Cost Analytics</h1>
+                <div class="header-actions">
+                    <select class="filter-select">
+                        <option>Last 30 days</option>
+                        <option>Last 90 days</option>
+                        <option>Last year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Cost by Pipeline Type</h3>
+                    </div>
+                    <canvas id="pipelineChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Monthly Trends</h3>
+                    </div>
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Cost Efficiency</h3>
+                    </div>
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Resource Utilization</h3>
+                    </div>
+                    <canvas id="utilizationChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Page -->
+        <div id="alerts" class="page">
+            <div class="page-header">
+                <h1>Budget Alerts</h1>
+                <div class="header-actions">
+                    <button class="btn-primary">
+                        <i class="fas fa-plus"></i> New Alert
+                    </button>
+                </div>
+            </div>
+
+            <div class="alerts-grid">
+                <div class="alert-card active">
+                    <div class="alert-header">
+                        <h3>Monthly Budget - Cancer Genomics</h3>
+                        <div class="alert-status">Active</div>
+                    </div>
+                    <div class="alert-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                        <div class="progress-text">$1,700 / $2,000 (85%)</div>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn-ghost">Edit</button>
+                        <button class="btn-ghost">Disable</button>
+                    </div>
+                </div>
+                <div class="alert-card">
+                    <div class="alert-header">
+                        <h3>Daily Spending Limit</h3>
+                        <div class="alert-status">Active</div>
+                    </div>
+                    <div class="alert-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+                        <div class="progress-text">$130 / $200 (65%)</div>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn-ghost">Edit</button>
+                        <button class="btn-ghost">Disable</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optimize Page -->
+        <div id="optimize" class="page">
+            <div class="page-header">
+                <h1>Cost Optimization</h1>
+                <div class="header-actions">
+                    <button class="btn-secondary">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div class="optimization-grid">
+                <div class="optimization-card high">
+                    <div class="optimization-header">
+                        <div class="optimization-impact">High Impact</div>
+                        <div class="optimization-savings">$450/month</div>
+                    </div>
+                    <h3>Switch to Low-Priority VMs</h3>
+                    <p>Use low-priority VMs for RNA-seq workflows to reduce compute costs by up to 80%.</p>
+                    <div class="optimization-actions">
+                        <button class="btn-primary">Implement</button>
+                        <button class="btn-ghost">Learn More</button>
+                    </div>
+                </div>
+                <div class="optimization-card medium">
+                    <div class="optimization-header">
+                        <div class="optimization-impact">Medium Impact</div>
+                        <div class="optimization-savings">$125/month</div>
+                    </div>
+                    <h3>Archive Old Data</h3>
+                    <p>Move data older than 90 days to Archive storage tier for 70% cost reduction.</p>
+                    <div class="optimization-actions">
+                        <button class="btn-primary">Implement</button>
+                        <button class="btn-ghost">Learn More</button>
+                    </div>
+                </div>
+                <div class="optimization-card low">
+                    <div class="optimization-header">
+                        <div class="optimization-impact">Low Impact</div>
+                        <div class="optimization-savings">$89/month</div>
+                    </div>
+                    <h3>Optimize Batch Pools</h3>
+                    <p>Adjust auto-scaling to reduce idle time during off-peak hours.</p>
+                    <div class="optimization-actions">
+                        <button class="btn-primary">Implement</button>
+                        <button class="btn-ghost">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
